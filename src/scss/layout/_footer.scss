@@ -1,0 +1,38 @@
+.footer {
+    background-color: #bc86fa;
+    color: #260150;
+    padding: 40px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    h2 {
+        font-size: 30px;
+        font-weight: bold;
+    }
+    p {
+        font-size: 12px;
+    }
+}
+
+.adalab-logo {
+    width: 113px;
+    height: 40px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-menu {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-link {
+    font-size: 14px;
+}
