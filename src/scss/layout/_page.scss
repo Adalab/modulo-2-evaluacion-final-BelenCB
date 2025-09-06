@@ -24,6 +24,7 @@
 .shop-container {
     padding: 20px 90px 50px 90px;
     display: flex;
+    gap: 50px;
 }
 
 .shopping-cart {
@@ -36,7 +37,7 @@
     text-align: center;
 }
 
-.shop-title {
+.shop-title, .cart-title {
     margin-bottom: 40px;
 }
 
@@ -79,4 +80,25 @@
     padding: 10px;
     font-size: 12px;
     font-weight: bold;
+}
+
+.button-buy-click {
+    background-color: red;
+    color: rgb(78, 1, 1);
+}
+
+.new-cart-item {
+    background-color: #efe2ff;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.delete-button {
+    color: rgb(78, 1, 1);
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    
 }

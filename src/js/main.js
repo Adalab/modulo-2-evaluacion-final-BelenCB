@@ -1,8 +1,10 @@
 'use strict';
 
 const popularProducts = document.querySelector(".popular-products");
+const cartList = document.querySelector(".cart-list");
 
 let allProducts = [];
+let cartItems = [];
 
 const getProductsInfo = () => {
     fetch('https://fakestoreapi.com/products')
@@ -38,6 +40,26 @@ const renderProducts = (products) => {
         buttonBuy.textContent = "Comprar";
         buttonBuy.classList.add("button-buy");
 
+        const handleClickAdd = () => {
+            if (buttonBuy.textContent === "Eliminar") {
+                buttonBuy.textContent = "Comprar";
+                buttonBuy.classList.remove("button-buy-click");
+                const filteredCartItem = cartItems.findIndex((cartItem) => {
+                    return cartItem.id === product.id
+                });
+                console.log(filteredCartItem);
+                cartItems.splice(filteredCartItem, 1);
+            } else {
+                buttonBuy.textContent = "Eliminar";
+                buttonBuy.classList.add("button-buy-click");
+                cartItems.push(product);
+            };
+            console.log(cartItems);
+            renderCartItems(cartItems);
+        };
+
+        buttonBuy.addEventListener("click", handleClickAdd);
+
         newProduct.appendChild(newImage);
         newProduct.appendChild(newTitle);
         newProduct.appendChild(newPrice);
@@ -47,9 +69,50 @@ const renderProducts = (products) => {
     });
 };
 
-getProductsInfo();
+const renderCartItems = (cartItems) => {
+    cartList.innerHTML = "";
+    cartItems.forEach((cartItem) => {
+        const newCartItem = document.createElement('div');
+        newCartItem.classList.add("new-cart-item");
 
-// buscador para filtar productos por su nombre
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = "x";
+        deleteButton.classList.add("delete-button");
+
+        const newItemImage = document.createElement('img');
+        newItemImage.src = cartItem.image;
+        newItemImage.classList.add("new-image");
+
+        const newItemTitle = document.createElement('p');
+        newItemTitle.textContent = cartItem.title;
+        newItemTitle.classList.add("new-title");
+
+        const newItemPrice = document.createElement('p');
+        newItemPrice.textContent = cartItem.price + "€";
+        newItemPrice.classList.add("new-price");
+
+        const handleClickDelete = () => {
+            buttonBuy.textContent = "Comprar";
+            buttonBuy.classList.remove("button-buy-click");
+            const filteredCartItem = cartItems.findIndex((cartItem) => {
+                return cartItem.id === product.id
+            });
+            console.log(filteredCartItem);
+            cartItems.splice(filteredCartItem, 1);
+        };
+
+        deleteButton.addEventListener("click", handleClickDelete);
+
+        newCartItem.appendChild(deleteButton);
+        newCartItem.appendChild(newItemImage);
+        newCartItem.appendChild(newItemTitle);
+        newCartItem.appendChild(newItemPrice);
+        
+        cartList.appendChild(newCartItem);
+    });
+};
+
+getProductsInfo();
 
 const searchInput = document.querySelector(".searcher--input");
 const searchButton = document.querySelector(".searcher--button");
@@ -63,5 +126,8 @@ const handleClickSearch = () => {
 };
 
 searchButton.addEventListener("click", handleClickSearch);
+
+
+
 
 
