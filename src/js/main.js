@@ -2,6 +2,7 @@
 
 const popularProducts = document.querySelector(".popular-products");
 const cartList = document.querySelector(".cart-list");
+const cartEmpty = document.querySelector(".cart-empty");
 
 let allProducts = [];
 let cartItems = [];
@@ -13,7 +14,6 @@ const getProductsInfo = () => {
         })
     .then((data) => {
         allProducts = data;
-        console.log(allProducts);
         renderProducts(allProducts);   
     });
 };
@@ -77,6 +77,23 @@ const renderProducts = (products) => {
 
 const renderCartItems = (items) => {
     cartList.innerHTML = "";
+    cartEmpty.innerHTML = "";
+
+    if (cartItems.length > 0) {
+        const deleteAllButton = document.createElement('button');
+        deleteAllButton.textContent = "Vaciar el carrito";
+        deleteAllButton.classList.add("button-buy", "button-buy-click");
+        const handleClickDeleteAll = () => {
+            cartItems = [];
+            renderCartItems(cartItems);
+            renderProducts(allProducts);
+        };
+
+        deleteAllButton.addEventListener("click", handleClickDeleteAll);
+
+        cartEmpty.appendChild(deleteAllButton);
+    };
+
     items.forEach((cartItem) => {
         const newCartItem = document.createElement('div');
         newCartItem.classList.add("new-cart-item");
@@ -126,7 +143,6 @@ const handleClickSearch = () => {
         product.title.toLowerCase().includes(searchInput.value.toLowerCase())
     );
     renderProducts(filteredProducts);
-    console.log(filteredProducts);
 };
 
 searchButton.addEventListener("click", handleClickSearch);
