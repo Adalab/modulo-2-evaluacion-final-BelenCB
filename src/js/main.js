@@ -37,25 +37,31 @@ const renderProducts = (products) => {
         newPrice.classList.add("new-price");
 
         const buttonBuy = document.createElement('button');
-        buttonBuy.textContent = "Comprar";
         buttonBuy.classList.add("button-buy");
+        const isInCart = cartItems.find((cartItem) => {
+                return cartItem.id === product.id
+            });
 
+        if (isInCart) {
+            buttonBuy.textContent = "Eliminar";
+            buttonBuy.classList.add("button-buy-click");
+        } else {
+            buttonBuy.textContent = "Comprar";
+        };
+        
         const handleClickAdd = () => {
-            if (buttonBuy.textContent === "Eliminar") {
-                buttonBuy.textContent = "Comprar";
-                buttonBuy.classList.remove("button-buy-click");
-                const filteredCartItem = cartItems.findIndex((cartItem) => {
-                    return cartItem.id === product.id
+            const isInCart = cartItems.find((cartItem) => {
+                return cartItem.id === product.id
+            });
+            if (isInCart) {
+                cartItems = cartItems.filter((cartItem) => {
+                    return cartItem.id !== product.id
                 });
-                console.log(filteredCartItem);
-                cartItems.splice(filteredCartItem, 1);
             } else {
-                buttonBuy.textContent = "Eliminar";
-                buttonBuy.classList.add("button-buy-click");
                 cartItems.push(product);
             };
-            console.log(cartItems);
             renderCartItems(cartItems);
+            renderProducts(products);
         };
 
         buttonBuy.addEventListener("click", handleClickAdd);
@@ -69,9 +75,9 @@ const renderProducts = (products) => {
     });
 };
 
-const renderCartItems = (cartItems) => {
+const renderCartItems = (items) => {
     cartList.innerHTML = "";
-    cartItems.forEach((cartItem) => {
+    items.forEach((cartItem) => {
         const newCartItem = document.createElement('div');
         newCartItem.classList.add("new-cart-item");
 
@@ -92,13 +98,11 @@ const renderCartItems = (cartItems) => {
         newItemPrice.classList.add("new-price");
 
         const handleClickDelete = () => {
-            buttonBuy.textContent = "Comprar";
-            buttonBuy.classList.remove("button-buy-click");
-            const filteredCartItem = cartItems.findIndex((cartItem) => {
-                return cartItem.id === product.id
+            cartItems = cartItems.filter((item) => {
+                return item.id !== cartItem.id
             });
-            console.log(filteredCartItem);
-            cartItems.splice(filteredCartItem, 1);
+            renderCartItems(cartItems);
+            renderProducts(allProducts); 
         };
 
         deleteButton.addEventListener("click", handleClickDelete);
