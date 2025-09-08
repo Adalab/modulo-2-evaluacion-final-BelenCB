@@ -4,8 +4,8 @@ const popularProducts = document.querySelector(".popular-products");
 const cartList = document.querySelector(".cart-list");
 const cartEmpty = document.querySelector(".cart-empty");
 
-let allProducts = [];
-let cartItems = [];
+let allProducts = JSON.parse(localStorage.getItem('products')) || [];
+let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
 const getProductsInfo = () => {
     fetch('https://fakestoreapi.com/products')
@@ -62,6 +62,8 @@ const renderProducts = (products) => {
             };
             renderCartItems(cartItems);
             renderProducts(products);
+            localStorage.setItem('products',JSON.stringify(allProducts));
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
         };
 
         buttonBuy.addEventListener("click", handleClickAdd);
@@ -87,6 +89,8 @@ const renderCartItems = (items) => {
             cartItems = [];
             renderCartItems(cartItems);
             renderProducts(allProducts);
+            localStorage.setItem('products',JSON.stringify(allProducts));
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
         };
 
         deleteAllButton.addEventListener("click", handleClickDeleteAll);
@@ -119,7 +123,9 @@ const renderCartItems = (items) => {
                 return item.id !== cartItem.id
             });
             renderCartItems(cartItems);
-            renderProducts(allProducts); 
+            renderProducts(allProducts);
+            localStorage.setItem('products',JSON.stringify(allProducts));
+            localStorage.setItem('cartItems', JSON.stringify(cartItems)); 
         };
 
         deleteButton.addEventListener("click", handleClickDelete);
@@ -133,7 +139,12 @@ const renderCartItems = (items) => {
     });
 };
 
-getProductsInfo();
+if (allProducts.length === 0) {
+    getProductsInfo();
+} else {
+    renderProducts(allProducts);
+    renderCartItems(cartItems);
+};
 
 const searchInput = document.querySelector(".searcher--input");
 const searchButton = document.querySelector(".searcher--button");
