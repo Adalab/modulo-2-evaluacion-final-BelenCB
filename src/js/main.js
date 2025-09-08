@@ -158,7 +158,11 @@ const handleClickSearch = () => {
 
 searchButton.addEventListener("click", handleClickSearch);
 
-
+searchInput.addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+        handleClickSearch();
+    }
+});
 
 
 
